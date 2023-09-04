@@ -37,9 +37,9 @@
 
 <div class="container h-full mx-auto flex justify-center items-center">
 	<div class="space-y-5">
-		<h1 class="h1">Let's get cracking bones!</h1>
+		<h1 class="h1">Omar Galdamez</h1>
 		
-<img src="./favicon.png" alt="logo">
+<img src="./PortadaGit.svg" alt="logo">
 
 <Prueba/>
 	</div>
