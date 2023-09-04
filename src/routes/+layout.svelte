@@ -2,10 +2,13 @@
 	import '../app.postcss';
 	import { initializeStores } from '@skeletonlabs/skeleton';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
-	import { personStore } from './personStore';
-	import { toggleStore } from "./toggleStore"
-  import { userDataStore } from "../components/userDataStore";
+	import { personStore } from '../stores/personStore';
+	import { toggleStore } from "../stores/toggleStore"
+  import { userDataStore } from "../stores/userDataStore"
 	import LogoutBtn from '../components/LogoutBtn.svelte';
+	import Modal from '../components/Modal.svelte';
+  import { setContext } from 'svelte';
+	import AddPersonForm from '../components/AddPersonForm.svelte';
 
 	initializeStores();
 	// Highlight JS
@@ -45,7 +48,32 @@ console.log("SHOW MODAL: ", showModal)
 		isLog = userData.isLog;
 		console.log('isLOg: ', isLog);
 	});
+
+	
+  // Set up context and provide the 'person' data
+  setContext('person', person);
+
+  
+  // Create a reactive declaration to update 'person' in context
+  $: {
+    setContext('person', person);
+  }
+
+  
+	const addPerson = ((e: { detail: any; }) =>{
+console.log("dispatch add person: ",e.detail)
+	  person = e.detail
+	  showModal=false
+    // Update the store with the new 'person' value
+    personStore.set(person);
+	});
 </script>
+
+
+<Modal {showModal} >
+	<AddPersonForm on:addPerson={addPerson}/>
+  </Modal>
+
 
 <!-- <AppShell>...</AppShell> -->
 <AppShell>

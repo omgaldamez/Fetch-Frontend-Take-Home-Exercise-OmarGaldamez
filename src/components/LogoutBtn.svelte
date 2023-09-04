@@ -2,7 +2,7 @@
 	import axios from 'axios';
 
 	import { createEventDispatcher } from 'svelte';
-	import { userDataStore } from './userDataStore';
+	import { userDataStore } from '../stores/userDataStore';
 
 	let isFocused: boolean = true
 	let postName: string = ''

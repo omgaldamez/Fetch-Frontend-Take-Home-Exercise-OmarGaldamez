@@ -4,7 +4,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { useForm, validators, HintGroup, Hint, email, required } from 'svelte-use-form';
 	import { focusTrap } from '@skeletonlabs/skeleton';
-	import { userDataStore } from './userDataStore';
+	import { userDataStore } from '../stores/userDataStore';
 
 
 	let isFocused: boolean = true;
