@@ -75,21 +75,6 @@ console.error(error); // Handle any errors here
 })
 
 
-const postLogOut = (async() => {
-
-axios.post("https://frontend-take-home-service.fetch.com/auth/logout", {
-"name": "John",
-"email": "test123@email.com"
-}, {
-withCredentials: true // Set withCredentials to true
-})
-.then(res => {
-    
-console.log("LOGOUT")
-console.log(res)
-})
-
-})
 
 </script>
 
@@ -104,8 +89,4 @@ console.log(res)
 
 <button on:click={getDogs}>
     getDataDogs
-</button>
-
-<button on:click={postLogOut}>
-    Logout
 </button>

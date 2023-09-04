@@ -2,6 +2,10 @@
 	import '../app.postcss';
 	import { initializeStores } from '@skeletonlabs/skeleton';
 	import { LightSwitch } from '@skeletonlabs/skeleton';
+	import { personStore } from './personStore';
+	import { toggleStore } from "./toggleStore"
+  import { userDataStore } from "../components/userDataStore";
+	import LogoutBtn from '../components/LogoutBtn.svelte';
 
 	initializeStores();
 	// Highlight JS
@@ -14,6 +18,33 @@
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup, AppBar, AppShell } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+
+	import { getContext } from 'svelte';
+
+	let person: unknown = null; // Initialize to null or a default value
+	let isLog: boolean | null = null; // Initialize to null or a default value
+	let showModal: boolean = false;
+
+	let toggleModal = (() => {
+	  showModal = !showModal;
+	  toggleStore.set({showModal})
+	});
+	// Subscribe to changes in the store
+	personStore.subscribe((value) => {
+		person = value;
+		console.log('PERSON LAYOUT: ', person);
+	});
+
+	toggleStore.subscribe((isToggle) => {
+showModal = isToggle.showModal
+console.log("SHOW MODAL: ", showModal)
+	})
+
+		// Subscribe to changes in the store
+		userDataStore.subscribe((userData) => {
+		isLog = userData.isLog;
+		console.log('isLOg: ', isLog);
+	});
 </script>
 
 <!-- <AppShell>...</AppShell> -->
@@ -21,10 +52,18 @@
 	<svelte:fragment slot="header">
 		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
 			<svelte:fragment slot="lead">
-				<h3>Omar Galdámez</h3></svelte:fragment
-			>
+				<h3>Omar Galdámez</h3></svelte:fragment>
+				{#if isLog === true}
+				<LogoutBtn/>
+				{/if}
+				{#if isLog === false}
+				<button class="btn variant-filled-warning" on:click={toggleModal}>
+					LOGIN
+				</button>
+				{/if}
 			<svelte:fragment slot="trail"><LightSwitch /></svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
 </AppShell>
+
 <slot />

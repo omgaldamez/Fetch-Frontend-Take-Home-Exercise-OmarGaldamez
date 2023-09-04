@@ -2,32 +2,51 @@
 	import Prueba from "./Prueba.svelte";
 	import Modal from '../components/Modal.svelte';
 	import AddPersonForm from '../components/AddPersonForm.svelte';
+	import Tabs from "../components/Tabs.svelte";
+  import { setContext } from 'svelte';
+  import { personStore } from "./personStore";
+	import { toggleStore } from "./toggleStore"
+	
+	// tabs
+	let items = ["Search Dogs", "Favs"]
+	let activeItem = "Current Polls"
+  const tabChange = (e: { detail: string; }) => activeItem = e.detail;
 
 	let showModal = true;
+	let person =""
   
 	let toggleModal = (() => {
 	  showModal = !showModal;
 	});
 
-	let people = [
-	  { name: 'yoshi', beltColour: 'black', age: 25, id: 1 },
-	  { name: 'mario', beltColour: 'orange', age: 45, id: 2 },
-	  { name: 'luigi', beltColour: 'brown', age: 35, id: 3 }
-	];
-	const handleClick = (() => {
-	  //console.log(e);
-	});
+	toggleStore.subscribe((isToggle) => {
+showModal = isToggle.showModal
+console.log("SHOW MODAL: ", showModal)
+	})
+
 
 	const addPerson = ((e: { detail: any; }) =>{
-//console.log(e.detail)
-	  const person = e.detail
-	  people = [person,...people]
+console.log("dispatch add person: ",e.detail)
+	  person = e.detail
 	  showModal=false
+    // Update the store with the new 'person' value
+    personStore.set(person);
 	});
+
+  // Set up context and provide the 'person' data
+  setContext('person', person);
+
+  
+  // Create a reactive declaration to update 'person' in context
+  $: {
+    setContext('person', person);
+  }
+
+	
 </script>
 
 
-<Modal {showModal} on:click={toggleModal}>
+<Modal {showModal} >
 	<AddPersonForm on:addPerson={addPerson}/>
   </Modal>
 
@@ -41,6 +60,19 @@
 		
 <img src="./PortadaGit.svg" alt="logo">
 
-<Prueba/>
+
+
+{#if person === "OK"}
+<main>
+	<Tabs {activeItem} {items} on:tabChange={tabChange} />
+	{#if activeItem === "Search Dogs"}
+	<h2>Tab1</h2>
+	{:else if activeItem === "Favs"}
+	<h2>Tab2</h2>
+	{/if}
+	<slot />
+</main>
+{/if}
+
 	</div>
 </div>

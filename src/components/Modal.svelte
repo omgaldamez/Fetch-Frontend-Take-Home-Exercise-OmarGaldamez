@@ -6,7 +6,6 @@
 	// @ts-ignore
 	function handleKeyDown(event) {
 		if (event.key === 'Escape') {
-			// Close the modal when the Escape key is pressed
 			// @ts-ignore
 			closeModal();
 		}
@@ -89,10 +88,9 @@
 	}
 
 	.column {
-		flex: 1; /* Each column takes up an equal amount of vertical space */
+		flex: 1;
 	}
 
-	/* Optional: If you want to style the columns individually */
 	.column:nth-child(odd) {
 		background: linear-gradient(-45deg, #e37e5d, #fa8072, #c7665b, #e35d72);
 		background-size: 200% 200%;
@@ -128,7 +126,7 @@
 	}
 
 	.logo img {
-		max-width: 50%; /* Set the maximum width to prevent expansion */
-		max-height: 50%; /* Set the maximum height to prevent expansion */
+		max-width: 50%; 
+		max-height: 50%;
 	}
 </style>

@@ -4,10 +4,14 @@
 	import { createEventDispatcher } from 'svelte';
 	import { useForm, validators, HintGroup, Hint, email, required } from 'svelte-use-form';
 	import { focusTrap } from '@skeletonlabs/skeleton';
+	import { userDataStore } from './userDataStore';
+
 
 	let isFocused: boolean = true;
 	let postName: string = '';
 	let postEmail: string = '';
+	let isLog: boolean = false;
+
 	const postFetch = async () => {
 		console.log('POST NAME: ', postName);
 		console.log('POST EMAIL: ', postEmail);
@@ -33,7 +37,10 @@
 				}
 
 				// Log the response data (if needed)
-				console.log('Response data:', res);
+				console.log('Response data:', res.data);
+				isLog=true
+				dispatch("addPerson",res.data)
+				userDataStore.set({ postName, postEmail, isLog })
 			})
 			.catch((error) => {
 				console.error(error); // Handle any errors here
@@ -95,24 +102,6 @@
 	</form>
 </div>
 
-<!-- <form use:form on:submit|preventDefault={handleSubmit}>
-<p>Hola</p>
-<input type="text" placeholder='name' bind:value={name}>
-<p>xd</p>
-<input type="number" placeholder='age' bind:value={age}>
-<label for="skills">Skills:</label>
-<input type="checkbox" bind:group={skills} value="fighting">fighting<br>
-<input type="checkbox" bind:group={skills} value="sneaking">sneaking<br>
-<input type="checkbox" bind:group={skills} value="running">running<br>
-<label for="beltColour">Belt colour:</label>
-<select bind:value={beltColour}>
-  <option value="black">black</option>
-  <option value="orange">orange</option>
-  <option value="brown">brown</option>
-  <option value="white">white</option>
-</select>
-<button>Add Ninja</button>
-</form> -->
 
 <style>
 	:global(.touched:invalid) {
