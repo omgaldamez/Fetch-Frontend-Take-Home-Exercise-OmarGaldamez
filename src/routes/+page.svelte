@@ -24,28 +24,26 @@
 		showModal = isToggle.showModal;
 		console.log('SHOW MODAL: ', showModal);
 	});
+
+	$: {
+		console.log('Reactive isLog: ', isLog);
+	}
 </script>
 
 <!-- YOU CAN DELETE EVERYTHING IN THIS PAGE -->
 
 {#if isLog === false}
-<Intro  />
+	<Intro />
 {/if}
 
+{#if isLog === true}
 <main class="h-full w-4/5 mx-auto justify-center items-center">
-	{#if isLog === true}
 		<Tabs {activeItem} {items} on:tabChange={tabChange} />
 		{#if activeItem === 'Search Dogs'}
 			<Test />
 		{:else if activeItem === 'Favs'}
 			<h2>Tab2</h2>
 		{/if}
-		<slot />
+	</main>
+		
 	{/if}
-</main>
-
-<style>
-.container{
-	height: 90vh;
-}
-</style>

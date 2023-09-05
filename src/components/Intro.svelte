@@ -12,3 +12,9 @@
 		<h2 class="h2 text-center">Fetch Frontend Take-Home Exercise</h2>
 	</div>
 </div>
+
+<style>
+    .container{
+        height: 90vh;
+    }
+    </style>
