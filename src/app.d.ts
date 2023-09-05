@@ -15,6 +15,7 @@ interface Dog {
 	age: number
 	zip_code: string
 	breed: string
+	favorite: boolean
 }
 
 interface Location {
@@ -24,4 +25,21 @@ interface Location {
     city: string
     state: string
     county: string
+}
+
+interface Match {
+	match: string
+}
+interface CodeSnippetInput {
+	title: string
+	language: string
+	code: string
+}
+
+interface CodeSnippet {
+	title: string
+	language: string
+	code: string
+	favorite: boolean
+	// userCreated : User, createdOn: string
 }
