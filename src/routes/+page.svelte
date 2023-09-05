@@ -2,8 +2,9 @@
 	import Tabs from '../components/Tabs.svelte';
 	import { toggleStore } from '../stores/toggleStore';
 	import Test from '../components/Test.svelte';
-	import { setContext } from 'svelte';
-  import { userDataStore } from "../stores/userDataStore"
+	import { userDataStore } from '../stores/userDataStore';
+	import Intro from '../components/Intro.svelte';
+	import { fly } from 'svelte/transition';
 
 	// tabs
 	let items = ['Search Dogs', 'Favs'];
@@ -13,8 +14,8 @@
 	let showModal = true;
 
 	let isLog: boolean | null = null; // Initialize to null or a default value
-		// Subscribe to changes in the store
-		userDataStore.subscribe((userData) => {
+	// Subscribe to changes in the store
+	userDataStore.subscribe((userData) => {
 		isLog = userData.isLog;
 		console.log('isLOg: ', isLog);
 	});
@@ -23,19 +24,13 @@
 		showModal = isToggle.showModal;
 		console.log('SHOW MODAL: ', showModal);
 	});
-
-
 </script>
 
 <!-- YOU CAN DELETE EVERYTHING IN THIS PAGE -->
 
-<div class="container h-full w-4/5 mx-auto flex justify-center items-center">
-	<div class="space-y-5">
-		<h1 class="h1">Omar Galdamez</h1>
-
-		<img src="./PortadaGit.svg" alt="logo" />
-	</div>
-</div>
+{#if isLog === false}
+<Intro  />
+{/if}
 
 <main class="h-full w-4/5 mx-auto justify-center items-center">
 	{#if isLog === true}
@@ -48,3 +43,9 @@
 		<slot />
 	{/if}
 </main>
+
+<style>
+.container{
+	height: 90vh;
+}
+</style>

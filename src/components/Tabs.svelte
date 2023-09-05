@@ -1,6 +1,9 @@
 <script>
 // @ts-nocheck
 
+	import { fly } from 'svelte/transition';
+// @ts-nocheck
+
 
     import { createEventDispatcher } from 'svelte';
     let dispatch = createEventDispatcher();
@@ -14,7 +17,7 @@
   
   </script>
   
-  <div class="tabs">
+  <div class="tabs" transition:fly={{ x: 200, duration: 1500 }}>
     <ul>
         {#each items as item}
         <li>
