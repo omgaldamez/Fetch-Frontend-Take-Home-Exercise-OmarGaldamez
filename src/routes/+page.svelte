@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Tabs from '../components/Tabs.svelte';
 	import { toggleStore } from '../stores/toggleStore';
-	import Test from '../components/Test.svelte';
+	import Fav from '../components/Fav.svelte';
+	import Search from '../components/Search.svelte';
 	import { userDataStore } from '../stores/userDataStore';
 	import Intro from '../components/Intro.svelte';
-	import { fly } from 'svelte/transition';
 
 	// tabs
 	let items = ['Search Dogs', 'Favs'];
@@ -40,9 +40,9 @@
 <main class="h-full w-4/5 mx-auto justify-center items-center">
 		<Tabs {activeItem} {items} on:tabChange={tabChange} />
 		{#if activeItem === 'Search Dogs'}
-			<Test />
+			<Search />
 		{:else if activeItem === 'Favs'}
-			<h2>Tab2</h2>
+		<Fav />
 		{/if}
 	</main>
 		

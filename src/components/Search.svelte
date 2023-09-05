@@ -1,21 +1,30 @@
 <script lang="ts">
-	import { fade, slide, scale } from 'svelte/transition';
-	import { flip } from 'svelte/animate';
+	import { slide, scale } from 'svelte/transition';
 	import axios from 'axios';
 	import { userDataStore } from '../stores/userDataStore';
 	import BreedsDetails from './BreedsDetails.svelte';
-	import { deleteSnippet, toggleFavorite } from '../stores/SnippetStore';
 	import { writable } from 'svelte/store';
-	import { Toast, getToastStore } from '@skeletonlabs/skeleton';
+	import { Avatar, Toast, getToastStore } from '@skeletonlabs/skeleton';
 	import type { ToastSettings, ToastStore } from '@skeletonlabs/skeleton';
 
 	const toastStore = getToastStore();
 	// Create a writable store for the selected breed
 	const selectedBreedStore = writable('');
 
+let isDogSelect: boolean = false
+
 	let breeds: string[];
 	let breedsAll: any[] = [];
 	let isLog: boolean | null = null; // Initialize to null or a default value
+
+	// let resImg: string[]
+	// let resName: string[]
+	//   let resAge: number[]
+	//   let resBreed: string[]
+	//   let resZC: string[]
+	//   let resID: string[]
+
+	let resData: any[];
 
 	// Subscribe to changes in the store
 	userDataStore.subscribe((userData) => {
@@ -73,12 +82,45 @@
 
 				console.log('TOTAL: ', res.data.total);
 				console.log('BREEDS: ', breeds);
+				console.log('ID RAZA: ', res.data.resultIds);
+				postDogs(res.data.resultIds);
 			})
 			.catch((error) => {
 				console.error(error); // Handle any errors here
 			});
 	};
 
+	const postDogs = async (dogsId: string[]) => {
+    console.log('dogsID: ', dogsId);
+
+    axios
+        .post(
+            'https://frontend-take-home-service.fetch.com/dogs',
+            dogsId,
+            {
+                withCredentials: true // Set withCredentials to true for cookies
+            }
+        )
+        .then((res) => {
+            // Access and log response headers (cookies)
+            const cookies = res.headers['set-cookie'];
+            if (cookies) {
+                console.log('Cookies received:', cookies);
+            }
+
+            // Log the response data if needed
+            console.log('Response data:', res.data);
+
+ resData = res.data
+ isDogSelect=true
+
+            // Now resData should be an array of objects
+            console.log(resData);
+        })
+        .catch((error) => {
+            console.error(error); // Handle any errors here
+        });
+};
 	let isDropdownOpen = false;
 	let selectedBreed = '';
 
@@ -93,6 +135,9 @@
 		console.log('ENTRA SELECTBREED: ', selectedBreed);
 		tryGet();
 	}
+
+	
+	let currentVariant = 'bg-initial';
 </script>
 
 <Toast />
@@ -120,29 +165,61 @@
 			</ul>
 		{/if}
 	</div>
-	<div class="poll-list">
-		{#each breedsAll as dogBreeds, index}
-			<div in:slide out:scale|local>
-				<header>
-					<div class="float-right">
-						<button type="button" class="btn btn-sm variant-filled-secondary"> w </button>
-						<button type="button" class="btn btn-sm variant-filled-error"> x </button>
-					</div>
-				</header>
-				<BreedsDetails {dogBreeds} />
-			</div>
-		{/each}
-	</div>
+
+{#if isDogSelect===true}
+<div class="dogCards">
+	{#each resData as breedSel}
+	<div class="dC">
+    <header>
+        <img src={breedSel.img}  alt="Post" />
+    </header>
+    <div class="p-4 space-y-4">
+        <h6 class="h6" data-toc-ignore>Age: {breedSel.age} years</h6>
+        <h3 class="h3" data-toc-ignore>Name: {breedSel.name}</h3>
+    </div>
+    <hr class="opacity-50" />
+    <footer class="p-4 flex justify-start items-center space-x-4">
+        <Avatar src={"./fetchLogo.svg"} width="w-8" />
+        <div class="flex-auto flex justify-between items-center">
+            <h6 class="font-bold" data-toc-ignore>Zip Code: {breedSel.zip_code}</h6>
+            <small>On {new Date().toLocaleDateString()}</small>
+        </div>
+    </footer>
+</div>
+{/each}
+</div>
+{/if}
+
 {:else}
 	<h1 class="h1">Inicia para ver</h1>
 {/if}
 
 <style>
-	.poll-list {
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-		grid-gap: 20px;
-	}
+  .dogCards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .dC {
+    width: 300px; /* Set a fixed width for the cards */
+    margin: 18px;
+    border: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dC header {
+    max-height: 200px; /* Set a max-height for the header (image) */
+    overflow: hidden; /* Hide overflow for taller images */
+    text-align: center;
+  }
+
+  .dC header img {
+    max-width: 100%; /* Ensure the image doesn't exceed the card's width */
+    height: auto;
+  }
 	/* Add your styles for the input and dropdown here */
 	.breed-options {
 		max-height: 150px; /* Adjust the maximum height as needed */

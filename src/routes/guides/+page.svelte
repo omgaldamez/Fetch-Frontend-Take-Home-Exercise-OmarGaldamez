@@ -1,5 +1,5 @@
 <script lang="ts">
-import Test from "../../components/Test.svelte";
+import Fav from "../../components/Fav.svelte";
 
 	import type { PageData } from "./$types";
 	
