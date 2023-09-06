@@ -1,26 +1,26 @@
 <script lang="ts">
-	import axios from 'axios'; 
-	import { userDataStore } from '../stores/userDataStore'; 
-	import { writable } from 'svelte/store'; 
+	import axios from 'axios';
+	import { userDataStore } from '../stores/userDataStore';
+	import { writable } from 'svelte/store';
 	import { Avatar, Toast, getToastStore } from '@skeletonlabs/skeleton';
 	import type { ToastSettings } from '@skeletonlabs/skeleton'; // Import type definition for toast settings
 
-	const toastStore = getToastStore(); 
+	const toastStore = getToastStore();
 
 	// Create a writable store for the selected breed
 	const selectedBreedStore = writable('');
 
-	let isDogSelect: boolean = false; 
+	let isDogSelect: boolean = false;
 
-	let breeds: string[]; 
-	let breedsAll: any[] = []; 
-	let isLog: boolean | null = null; 
+	let breeds: string[];
+	let breedsAll: any[] = [];
+	let isLog: boolean | null = null;
 
-	let resData: any[]; 
+	let resData: any[];
 
 	// Subscribe to changes in the user data store
 	userDataStore.subscribe((userData) => {
-		isLog = userData.isLog; 
+		isLog = userData.isLog;
 	});
 
 	type ApiDog = {
@@ -40,7 +40,7 @@
 				breedsAll = res.data; // Store all available dog breeds
 			})
 			.catch((error) => {
-				console.error(error); 
+				console.error(error);
 			});
 	};
 	getFetch(); // Fetch available dog breeds when the component is initialized
@@ -48,9 +48,12 @@
 	// Function to search for dogs based on the selected breed
 	const tryGet = () => {
 		axios
-			.get(`https://frontend-take-home-service.fetch.com/dogs/search?breeds=${selectedBreed}&size=${"50"}`, {
-				withCredentials: true
-			})
+			.get(
+				`https://frontend-take-home-service.fetch.com/dogs/search?breeds=${selectedBreed}&size=${'50'}`,
+				{
+					withCredentials: true
+				}
+			)
 			.then((res) => {
 				// Process and store the search results
 				breeds = res.data.resultIds.map((resultId: string) => {
@@ -70,7 +73,7 @@
 				postDogs(res.data.resultIds); // Call a function to fetch dog details based on search results
 			})
 			.catch((error) => {
-				console.error(error); 
+				console.error(error);
 			});
 	};
 
@@ -81,16 +84,16 @@
 				withCredentials: true
 			})
 			.then((res) => {
-				resData = res.data; 
-				isDogSelect = true; 
+				resData = res.data;
+				isDogSelect = true;
 			})
 			.catch((error) => {
-				console.error(error); 
+				console.error(error);
 			});
 	};
 
-	let isDropdownOpen = false; 
-	let selectedBreed = ''; 
+	let isDropdownOpen = false;
+	let selectedBreed = '';
 
 	// Function to toggle the dropdown state
 	function toggleDropdown() {
@@ -99,64 +102,65 @@
 
 	// Function to select a breed and trigger the search
 	function selectBreed(breed: string) {
-		selectedBreedStore.set(breed); 
-		selectedBreed = breed; 
+		selectedBreedStore.set(breed);
+		selectedBreed = breed;
 		isDropdownOpen = false;
 		tryGet(); // Trigger the search for dogs of the selected breed
 	}
-
 </script>
 
 <Toast />
 
 {#if isLog === true}
-<div class="breed-input">
-	<input
-		type="text"
-		placeholder="Select a breed"
-		readonly
-		on:click={toggleDropdown}
-		value={selectedBreed}
-	/>
+	<div class="breed-input">
+		<input
+			class="variant-ghost-tertiary"
+			type="text"
+			placeholder="Select a breed"
+			readonly
+			on:click={toggleDropdown}
+			value={selectedBreed}
+		/>
 
-	{#if isDropdownOpen}
-	<ul class="breed-options">
-		{#each breedsAll as breed (breed)}
-			<!-- svelte-ignore a11y-click-events-have-key-events -->
-			<!-- svelte-ignore a11y-no-static-element-interactions -->
-			<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-			<li class="breed-option" on:click={() => selectBreed(breed)}>{breed}</li>
-		{/each}
-	</ul>
-	{/if}
-</div>
-
-{#if isDogSelect === true}
-	<div class="dogCards">
-		{#each resData as breedSel}
-			<div class="dC">
-				<header>
-					<img src={breedSel.img} alt="Post" />
-				</header>
-				<div class="p-4 space-y-4">
-					<h6 class="h6" data-toc-ignore>Age: {breedSel.age} years</h6>
-					<h3 class="h3" data-toc-ignore>Name: {breedSel.name}</h3>
-				</div>
-				<hr class="opacity-50" />
-				<footer class="p-4 flex justify-start items-center space-x-4">
-					<Avatar src={'./fetchLogo.svg'} width="w-8" />
-					<div class="flex-auto flex justify-between items-center">
-						<h6 class="font-bold" data-toc-ignore>Zip Code: {breedSel.zip_code}</h6>
-						<small>On {new Date().toLocaleDateString()}</small>
-					</div>
-				</footer>
-			</div>
-		{/each}
+		{#if isDropdownOpen}
+			<ul class="breed-options">
+				{#each breedsAll as breed (breed)}
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
+					<!-- svelte-ignore a11y-no-static-element-interactions -->
+					<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+					<li class="breed-option " on:click={() => selectBreed(breed)}>{breed}</li>
+				{/each}
+			</ul>
+		{/if}
 	</div>
-{/if}
+
+	{#if isDogSelect === true}
+		<div class="dogCards">
+			{#each resData as breedSel}
+				<div class="dC variant-ghost-tertiary">
+					<header>
+						<img src={breedSel.img} alt="Post" />
+					</header>
+					<div class="p-4 space-y-4">
+						<h6 class="h6" data-toc-ignore>Age: {breedSel.age} years</h6>
+						<h3 class="h3" data-toc-ignore>Name: {breedSel.name}</h3>
+					</div>
+					<hr class="opacity-50" />
+					<footer class="p-4 flex justify-start items-center space-x-4">
+						<Avatar src={'./fetchLogo.svg'} width="w-8" />
+						<div class="flex-auto flex justify-between items-center">
+							<h6 class="font-bold" data-toc-ignore>Zip Code: {breedSel.zip_code}</h6>
+							<small>On {new Date().toLocaleDateString()}</small>
+						</div>
+					</footer>
+				</div>
+			{/each}
+		</div>
+	{/if}
 {:else}
 	<h1 class="h1">Inicia para ver</h1>
 {/if}
+
 
 <style>
 	.dogCards {
@@ -166,34 +170,37 @@
 		justify-content: center;
 	}
 
+
 	.dC {
-		width: 300px; 
+		width: 300px;
 		margin: 18px;
-		border: 1px solid #333;
-	  border-radius: 12px;
+		border-radius: 12px;
 		display: flex;
 		flex-direction: column;
 	}
 
 	.dC header {
-		max-height: 200px; 
-		overflow: hidden; 
+		max-height: 200px;
+		overflow: hidden;
 		text-align: center;
-	  border-radius: 12px;
+		border-radius: 12px;
 	}
 
 	.dC header img {
 		max-width: 100%;
 		height: auto;
+		padding: 8px;
+		border-radius: 20px;
 	}
 	/* Add your styles for the input and dropdown here */
 	.breed-options {
-		max-height: 150px; 
+		max-height: 150px;
 		overflow-y: auto;
-		border: 1px solid #ccc;
+		border-bottom: 1px solid #ccc;
 		border-radius: 5px;
 		width: 40vw;
 		text-align: center;
+		border: none;
 	}
 	.breed-input {
 		display: flex;
@@ -207,6 +214,8 @@
 
 	input {
 		width: 40vw;
+		border: none;
+		border-radius: 20px;
 	}
 
 	.breed-option {
@@ -215,9 +224,10 @@
 		border-bottom: 1px solid #ccc;
 	}
 	.breed-option:last-child {
-		border-bottom: none; 
+		border-bottom: none;
 	}
 </style>
+
 
 
 <!-- Code Description:

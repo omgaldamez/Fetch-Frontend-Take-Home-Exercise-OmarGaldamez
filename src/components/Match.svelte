@@ -80,7 +80,7 @@
   <h1 class="h1">Your Best Match is: {bestMatch}!!!</h1>
   <div class="dogCards">
 	{#each resData as breedSel}
-	<div class="dC">
+	<div class="dC variant-ghost-tertiary">
 	  <header>
 		<img src={breedSel.img} alt="Post" />
 	  </header>
@@ -111,13 +111,16 @@
 	  justify-content: center;
 	}
   
+	img{
+		border-radius: 20px;
+	}
+
 	.dC {
-	  width: 300px; 
-	  margin: 18px;
-	  border: 1px solid #333;
-	  border-radius: 12px;
-	  display: flex;
-	  flex-direction: column;
+		width: 300px;
+		margin: 18px;
+		border-radius: 12px;
+		display: flex;
+		flex-direction: column;
 	}
   
 	.dC header {
@@ -127,9 +130,11 @@
 	  border-radius: 12px;
 	}
   
-	.dC header img {
-	  max-width: 100%; 
-	  height: auto;
+.dC header img {
+		max-width: 100%;
+		height: auto;
+		padding: 8px;
+		border-radius: 20px;
 	}
   
   </style>

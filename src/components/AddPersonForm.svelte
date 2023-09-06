@@ -62,7 +62,7 @@
 
 <div class="logIntro">
 	<form use:form use:focusTrap={isFocused} on:submit|preventDefault={handleSubmit}>
-		<div class="logEmail">
+		<div class="logEmail w-4/5 flex justify-center flex-col">
 			<label class="label text-left">
 				<span>Email</span>
 				<input
@@ -81,7 +81,7 @@
 				<Hint on="email" hideWhenRequired>Email is not valid</Hint>
 			</HintGroup>
 		</div>
-		<div class="logPass">
+		<div class="logPass w-4/5 flex flex-col">
 			<label class="label text-left">
 				<span>Name</span>
 				<input
@@ -98,7 +98,7 @@
 		</div>
 		<button
 			disabled={!$form.valid}
-			class="btn {$form.valid ? 'variant-filled-success' : 'variant-filled-tertiary'}"
+			class="btn {$form.valid ? 'variant-filled-success' : 'variant-soft-tertiary'}"
 			on:click={postFetch}
 		>
 			Login
@@ -113,22 +113,12 @@
 		outline-color: red;
 	}
 
-	input {
-		color: black;
-	}
-
 	.logEmail {
 		margin: 24px auto;
-		width: 80%;
-		display: flex;
-		justify-content: center;
-		flex-direction: column;
 	}
+
 	.logPass {
 		margin: 24px auto;
-		width: 80%;
-		display: flex;
-		flex-direction: column;
 	}
 
 </style>

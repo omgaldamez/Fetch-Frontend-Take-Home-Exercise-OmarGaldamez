@@ -75,7 +75,7 @@
 				<LogoutBtn />
 			{/if}
 			{#if isLog === false}
-				<button class="btn variant-filled-warning" on:click={toggleModal}> LOGIN </button>
+				<button class="btn bg-gradient-to-br variant-gradient-error-success" on:click={toggleModal}> Enter </button>
 			{/if}
 			<svelte:fragment slot="trail"><LightSwitch /></svelte:fragment>
 		</AppBar>

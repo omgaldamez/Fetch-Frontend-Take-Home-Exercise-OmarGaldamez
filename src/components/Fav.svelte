@@ -116,9 +116,9 @@
 					<div class="float-right">
 						<button
 							type="button"
-							class="btn btn-sm"
-							class:variant-filled-secondary={!breedStates[index].isFavorite}
-							class:variant-filled-primary={breedStates[index].isFavorite}
+							class="btn btn-sm bg-gradient-to-br variant-gradient-warning-success"
+							class:variant-gradient-warning-success={!breedStates[index].isFavorite}
+							class:variant-filled-warning={breedStates[index].isFavorite}
 							on:click={() => toggleFavoriteButton(index, dogBreeds)}
 						>
 							{breedStates[index].buttonText}

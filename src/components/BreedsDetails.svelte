@@ -5,13 +5,6 @@
 
 <Card>
 	<div class="poll">
-		<h3>{dogBreeds}</h3>
+		<h3 class="h3">{dogBreeds}</h3>
 	</div>
 </Card>
-
-<style>
-	h3 {
-		margin: 0 auto;
-		color: #555;
-	}
-</style>

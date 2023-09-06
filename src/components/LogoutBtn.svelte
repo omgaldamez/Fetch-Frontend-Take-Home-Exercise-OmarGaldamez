@@ -43,7 +43,7 @@
 	};
   </script>
   
-  <button class="btn variant-filled-error" on:click={postLogOut}>
+  <button class="btn bg-gradient-to-br variant-gradient-primary-secondary" on:click={postLogOut}>
 	Log Out
   </button>
   
