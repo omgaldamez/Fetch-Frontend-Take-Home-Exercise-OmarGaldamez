@@ -5,10 +5,12 @@
 	import Search from '../components/Search.svelte';
 	import { userDataStore } from '../stores/userDataStore';
 	import Intro from '../components/Intro.svelte';
+	import Match from '../components/Match.svelte';
+	import { favStore } from '../stores/favStore';
 
 	// tabs
-	let items = ['Search Dogs', 'Favs'];
-	let activeItem = 'Current Polls';
+	let items = ['Search Dogs', 'Favs', 'Best Match'];
+	let activeItem = 'Search Dogs';
 	const tabChange = (e: { detail: string }) => (activeItem = e.detail);
 
 	let showModal = true;
@@ -17,33 +19,29 @@
 	// Subscribe to changes in the store
 	userDataStore.subscribe((userData) => {
 		isLog = userData.isLog;
-		console.log('isLOg: ', isLog);
 	});
 
 	toggleStore.subscribe((isToggle) => {
 		showModal = isToggle.showModal;
-		console.log('SHOW MODAL: ', showModal);
 	});
 
-	$: {
-		console.log('Reactive isLog: ', isLog);
-	}
+	// Initialize selectedBreeds from favStore
+	let selectedBreeds: string[] = $favStore;
 </script>
-
-<!-- YOU CAN DELETE EVERYTHING IN THIS PAGE -->
 
 {#if isLog === false}
 	<Intro />
 {/if}
 
 {#if isLog === true}
-<main class="h-full w-4/5 mx-auto justify-center items-center">
+	<main class="h-full w-4/5 mx-auto justify-center items-center">
 		<Tabs {activeItem} {items} on:tabChange={tabChange} />
 		{#if activeItem === 'Search Dogs'}
 			<Search />
 		{:else if activeItem === 'Favs'}
-		<Fav />
+			<Fav />
+		{:else if activeItem === 'Best Match'}
+			<Match />
 		{/if}
 	</main>
-		
-	{/if}
+{/if}

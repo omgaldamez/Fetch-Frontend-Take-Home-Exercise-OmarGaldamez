@@ -1,22 +1,12 @@
-<script>
-	import { createEventDispatcher } from 'svelte';
+<script lang="ts">
 	import Card from './Card.svelte';
-	import breedStore from '../stores/breedsStore';
-	/**
-	 * @type {any}
-	 */
-	 export let dogBreeds;
-
-	
-
-
+	export let dogBreeds: string;
 </script>
 
 <Card>
 	<div class="poll">
 		<h3>{dogBreeds}</h3>
-    </div>
-	
+	</div>
 </Card>
 
 <style>
@@ -24,5 +14,4 @@
 		margin: 0 auto;
 		color: #555;
 	}
-
 </style>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let showModal = false;
 	export let isHighlight = false;
-	import { TabGroup, Tab, TabAnchor } from '@skeletonlabs/skeleton';
+	import { TabGroup, Tab } from '@skeletonlabs/skeleton';
 	let tabSet: number = 0;
 	// @ts-ignore
 	function handleKeyDown(event) {
@@ -126,7 +126,41 @@
 	}
 
 	.logo img {
-		max-width: 50%; 
+		max-width: 50%;
 		max-height: 50%;
 	}
 </style>
+
+<!-- 
+The Modal.svelte component represents a modal dialog that can be toggled on or off based on the showModal variable. The modal can display different content sections in tabs and has an optional highlight effect.
+
+Component Structure:
+
+Script Section:
+
+The script section defines the component's variables, including showModal (controls modal visibility), isHighlight (indicates highlight effect), and tabSet (tracks active tab).
+It contains an event listener function handleKeyDown to detect the "Escape" key press and close the modal.
+Template Section ({#if showModal}):
+
+This section renders the modal when showModal is true.
+It includes a backdrop, modal container, logo, dynamic content slot, and tabbed panels.
+Style Section:
+
+Contains CSS styles for various modal elements, including background, size, layout, gradient animation, and logo display.
+Usage:
+To use this component, include it in your Svelte application and bind the showModal and isHighlight properties as needed. You can also provide dynamic content within the modal using the slot.
+
+External Dependencies:
+
+Skeleton library components: TabGroup and Tab.
+Functionality:
+
+The modal can be triggered to open or close by setting the showModal variable.
+It supports a highlight effect (isHighlight) that changes the modal's background color.
+The "Escape" key press closes the modal.
+Tabbed panels allow different content sections to be displayed within the modal.
+The component provides flexibility for customization and displaying various types of information within the modal.
+Notes:
+
+Ensure that you have the Skeleton library components available for the tab functionality to work correctly.
+This component is versatile and can be used for displaying information, prompts, or interactions within a modal -->

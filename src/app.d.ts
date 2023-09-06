@@ -18,6 +18,10 @@ interface Dog {
 	favorite: boolean
 }
 
+interface Breed{
+	breed: string
+}
+
 interface Location {
     zip_code: string
     latitude: number

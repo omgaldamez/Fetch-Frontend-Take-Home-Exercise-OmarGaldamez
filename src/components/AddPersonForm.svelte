@@ -7,7 +7,7 @@
 	import { userDataStore } from '../stores/userDataStore';
 
 	// Define component-level variables
-	let isFocused: boolean = true; // For focus trapping
+	let isFocused: boolean = true; 
 	let postName: string = '';
 	let postEmail: string = '';
 	let isLog: boolean = false;
@@ -29,14 +29,14 @@
 				}
 			)
 			.then((res) => {
-				// Access and log response headers (cookies)
+
 				const cookies = res.headers['set-cookie'];
 				if (cookies) {
 					console.log('Cookies received:', cookies);
 				}
 
 				// Log the response data if needed
-				console.log('Response data:', res.data);
+				//console.log('Response data:', res.data);
 
 				// Update component state and dispatch an event
 				isLog = true;
@@ -44,7 +44,7 @@
 				userDataStore.set({ postName, postEmail, isLog });
 			})
 			.catch((error) => {
-				console.error(error); // Handle any errors here
+				console.error(error);
 			});
 	};
 
@@ -73,7 +73,7 @@
 					placeholder="john@example.com"
 					autocomplete="email"
 					bind:value={postEmail}
-					use:validators={[required, email]} 
+					use:validators={[required, email]}
 				/>
 			</label>
 			<HintGroup for="email">
@@ -90,14 +90,14 @@
 					title="Input (text)"
 					type="text"
 					placeholder="John Doe"
-					bind:value={postName} 
+					bind:value={postName}
 					use:validators={[required]}
 				/>
 			</label>
 			<Hint for="password" on="required">This is a mandatory field</Hint>
 		</div>
 		<button
-			disabled={!$form.valid} 
+			disabled={!$form.valid}
 			class="btn {$form.valid ? 'variant-filled-success' : 'variant-filled-tertiary'}"
 			on:click={postFetch}
 		>
@@ -106,11 +106,17 @@
 	</form>
 </div>
 
+
 <style>
 	:global(.touched:invalid) {
 		border-color: red;
 		outline-color: red;
 	}
+
+	input {
+		color: black;
+	}
+
 	.logEmail {
 		margin: 24px auto;
 		width: 80%;
@@ -125,36 +131,37 @@
 		flex-direction: column;
 	}
 
-	input {
-		color: black;
-	}
 </style>
 
+<!-- **Code Description: AddPersonForm.svelte**
 
-<!-- 
-AddPersonForm Svelte Component
-Description
-The AddPersonForm Svelte component is a form that allows users to input their name and email, and upon submission, it makes a POST request to a backend server for authentication. This component integrates various Svelte and external libraries to handle form validation, event dispatching, and focus trapping.
+The `AddPersonForm.svelte` component is a Svelte form that allows users to input their name and email.
+Upon submission, it makes a POST request to a backend server for authentication.
+The component integrates various Svelte and external libraries to handle form validation, event dispatching, and focus trapping.
 
-Usage
+**Usage:**
 To use this component in your Svelte application, follow these steps:
 
-Import the necessary libraries and components:
+1. Import the necessary libraries and components:
 
-Component Structure
-Script Section: The script section imports external libraries and initializes component-level variables. It defines a function postFetch to make a POST request, sets up event dispatching, and handles form submission.
+**Component Structure:**
+- **Script Section:** This section imports external libraries and initializes component-level variables.
+It defines a function, `postFetch`, to make a POST request, sets up event dispatching, and handles form submission.
 
-Form Section: The HTML form includes two input fields for email and name, with corresponding validation hints. The form uses the use:form and use:focusTrap directives to manage form state and focus trapping.
+- **Form Section:** The HTML form includes two input fields for email and name, with corresponding validation hints.
+The form uses the `use:form` and `use:focusTrap` directives to manage form state and focus trapping.
 
-Button: The "Login" button is conditionally disabled based on form validity and triggers the postFetch function when clicked.
+- **Button:** The "Login" button is conditionally disabled based on form validity and triggers the `postFetch` function when clicked.
 
-Style Section: Styling for the component, including error styles for invalid inputs.
+- **Style Section:** Styling for the component, including error styles for invalid inputs.
 
-External Dependencies
-Axios: Used for making HTTP POST requests to the authentication server.
+**External Dependencies:**
+- **Axios:** Used for making HTTP POST requests to the authentication server.
 
-Svelte-Use-Form: Used for form handling, validation, and managing form state.
+- **Svelte-Use-Form:** Used for form handling, validation, and managing form state.
 
-Skeleton: Provides the focusTrap utility for trapping focus within the form.
+- **Skeleton:** Provides the `focusTrap` utility for trapping focus within the form.
 
-userDataStore: An external store for managing user data. -->
+- **userDataStore:** An external store for managing user data.
+
+This component provides a reusable and user-friendly form for user authentication, enhancing user experience and maintaining code organization and readability. -->

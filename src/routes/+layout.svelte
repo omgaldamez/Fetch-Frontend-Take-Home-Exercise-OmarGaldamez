@@ -22,8 +22,6 @@
 	import { storePopup, AppBar, AppShell } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
-	import { getContext } from 'svelte';
-
 	let person: unknown = null; // Initialize to null or a default value
 	let isLog: boolean | null = null; // Initialize to null or a default value
 	let showModal: boolean = false;
@@ -35,18 +33,15 @@
 	// Subscribe to changes in the store
 	personStore.subscribe((value) => {
 		person = value;
-		console.log('PERSON LAYOUT: ', person);
 	});
 
 	toggleStore.subscribe((isToggle) => {
 		showModal = isToggle.showModal;
-		console.log('SHOW MODAL: ', showModal);
 	});
 
 	// Subscribe to changes in the store
 	userDataStore.subscribe((userData) => {
 		isLog = userData.isLog;
-		console.log('isLOg: ', isLog);
 	});
 
 	// Set up context and provide the 'person' data
@@ -70,7 +65,6 @@
 	<AddPersonForm on:addPerson={addPerson} />
 </Modal>
 
-<!-- <AppShell>...</AppShell> -->
 <AppShell>
 	<svelte:fragment slot="header">
 		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
