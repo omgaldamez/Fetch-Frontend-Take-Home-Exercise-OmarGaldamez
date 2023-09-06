@@ -170,6 +170,7 @@
 		width: 300px; 
 		margin: 18px;
 		border: 1px solid #333;
+	  border-radius: 12px;
 		display: flex;
 		flex-direction: column;
 	}
@@ -178,6 +179,7 @@
 		max-height: 200px; 
 		overflow: hidden; 
 		text-align: center;
+	  border-radius: 12px;
 	}
 
 	.dC header img {
