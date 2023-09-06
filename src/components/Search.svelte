@@ -107,6 +107,8 @@
 		isDropdownOpen = false;
 		tryGet(); // Trigger the search for dogs of the selected breed
 	}
+
+
 </script>
 
 <Toast />
@@ -135,7 +137,7 @@
 	</div>
 
 	{#if isDogSelect === true}
-		<div class="dogCards">
+	<div class="dogCards">
 			{#each resData as breedSel}
 				<div class="dC variant-ghost-tertiary">
 					<header>

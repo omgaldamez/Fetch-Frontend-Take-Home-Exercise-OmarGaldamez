@@ -3,13 +3,15 @@
 	import axios from 'axios';
 	import { userDataStore } from '../stores/userDataStore';
 	import BreedsDetails from './BreedsDetails.svelte';
-	import { Toast, getToastStore } from '@skeletonlabs/skeleton';
+	import { Toast, getToastStore, SlideToggle } from '@skeletonlabs/skeleton';
 	import { favStore } from '../stores/favStore';
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { postDogs } from '../stores/postDogMatch';
 
 	const toastStore = getToastStore();
+	let sortAZ = true;
+	let sortToggle = 'A-Z';
 
 	// Define the Breed object
 	export let breed: Breed = {
@@ -31,7 +33,7 @@
 	const getFetch = async () => {
 		axios
 			.get('https://frontend-take-home-service.fetch.com/dogs/breeds', {
-				withCredentials: true 
+				withCredentials: true
 			})
 			.then((res) => {
 				console.log('DATA');
@@ -47,7 +49,7 @@
 				}));
 			})
 			.catch((error) => {
-				console.error(error); 
+				console.error(error);
 			});
 	};
 	getFetch();
@@ -83,7 +85,7 @@
 					timeout: 10000
 				};
 				toastStore.trigger(t);
-				console.log("RES MATCH:", resMatch);
+				console.log('RES MATCH:', resMatch);
 				// Update the favStore with the new selectedBreeds array
 				favStore.set(selectedBreeds);
 			})
@@ -96,64 +98,72 @@
 
 	// Function to initialize selected breeds from favStore
 	const loadSelectedBreeds = () => {
-		selectedBreeds = $favStore; 
+		selectedBreeds = $favStore;
 	};
 
 	onMount(() => {
 		loadSelectedBreeds();
 	});
+
+  // Sort the breed.breed array based on sortToggle
+  function sortBreedList() {
+    if (Array.isArray(breed.breed)) {
+      console.log('Sorting breed.breed array...');
+      breed.breed.sort((a, b) => {
+        if (sortToggle === 'A-Z') {
+          console.log('Sorting in ascending order (A-Z)...');
+          return a.localeCompare(b);
+        } else {
+          console.log('Sorting in descending order (Z-A)...');
+          return b.localeCompare(a);
+        }
+      });
+      console.log('Breed.breed array sorted:', breed.breed);
+    }
+  }
+
+  // Togle Sort
+  function toggleSort() {
+    sortAZ = !sortAZ;
+    sortToggle = sortAZ ? "A-Z" : "Z-A"; // Update sortToggle based on sortAZ value
+    console.log('Sort toggled to:', sortToggle);
+    sortBreedList(); // Sort the breed.breed array
+  }
+
 </script>
 
 <Toast />
 
-
 {#if isLog === true}
-<div class="containerFav">
-	<div class="poll-list">
-		{#each breed.breed as dogBreeds, index}
-			<div in:slide out:scale|local>
-				<header>
-					<div class="float-right">
-						<button
-							type="button"
-							class="btn btn-sm bg-gradient-to-br variant-gradient-warning-success"
-							class:variant-gradient-warning-success={!breedStates[index].isFavorite}
-							class:variant-filled-warning={breedStates[index].isFavorite}
-							on:click={() => toggleFavoriteButton(index, dogBreeds)}
-						>
-							{breedStates[index].buttonText}
-						</button>
-					</div>
-				</header>
-				<BreedsDetails {dogBreeds} />
-			</div>
-		{/each}
+	<SlideToggle name="slider-label" checked on:click={() => toggleSort()}>{sortToggle}</SlideToggle>
+
+	<div class="containerFav">
+		<div class="poll-list">
+			{#key sortToggle}
+			{#each breed.breed as dogBreeds, index}
+				<div in:slide out:scale|local>
+					<header>
+						<div class="float-right">
+							<button
+								type="button"
+								class="btn btn-sm bg-gradient-to-br variant-gradient-warning-success"
+								class:variant-gradient-warning-success={!breedStates[index].isFavorite}
+								class:variant-filled-warning={breedStates[index].isFavorite}
+								on:click={() => toggleFavoriteButton(index, dogBreeds)}
+							>
+								{breedStates[index].buttonText}
+							</button>
+						</div>
+					</header>
+					<BreedsDetails {dogBreeds} />
+				</div>
+			{/each}
+			{/key}
+		</div>
 	</div>
-</div>
 {:else}
 	<h1 class="h1">Inicia para ver</h1>
 {/if}
-
-<style>
-	.poll-list {
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-		grid-gap: 20px;
-	}
-	@media only screen and (max-width: 600px) {
-
-		.containerFav{
-		width: 80vw;
-		display: flex;
-	}
-	.poll-list {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-gap: 20px;
-	}
-}
-
-</style>
 
 <!-- 
 **Code Description: Fav.svelte**
@@ -183,3 +193,22 @@ It also calls the `postDogs` function to handle breed matching and displays toas
 
 This component enhances the user experience by providing a user-friendly interface for managing favorite dog breeds and notifying users of breed matches.
 It supports user authentication and integrates external libraries to handle various functionalities. -->
+
+<style>
+	.poll-list {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-gap: 20px;
+	}
+	@media only screen and (max-width: 600px) {
+		.containerFav {
+			width: 80vw;
+			display: flex;
+		}
+		.poll-list {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-gap: 20px;
+		}
+	}
+</style>
