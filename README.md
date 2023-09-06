@@ -48,7 +48,7 @@ Follow these steps to set up and run the Svelte Dog Finder App on your local mac
 1. Clone the repository to your local machine:
 
 ```bash
-   git clone https://github.com/omgaldamez/fetchTestSvelte.git
+   git clone https://github.com/omgaldamez/Fetch-Frontend-Take-Home-Exercise-OmarGaldamez.git
 ```
 
 2. Install the required dependencies:
