@@ -77,7 +77,7 @@
   </script>
   
   {#if selectedBreeds.length > 0}
-  <p>Best Match: {bestMatch}</p>
+  <h1 class="h1">Your Best Match is: {bestMatch}!!!</h1>
   <div class="dogCards">
 	{#each resData as breedSel}
 	<div class="dC">
@@ -115,6 +115,7 @@
 	  width: 300px; 
 	  margin: 18px;
 	  border: 1px solid #333;
+	  border-radius: 12px;
 	  display: flex;
 	  flex-direction: column;
 	}
@@ -123,6 +124,7 @@
 	  max-height: 200px; 
 	  overflow: hidden; 
 	  text-align: center;
+	  border-radius: 12px;
 	}
   
 	.dC header img {

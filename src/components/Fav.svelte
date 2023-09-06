@@ -135,7 +135,14 @@
 {/if}
 
 <style>
-	.containerFav{
+	.poll-list {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-gap: 20px;
+	}
+	@media only screen and (max-width: 600px) {
+
+		.containerFav{
 		width: 80vw;
 		display: flex;
 	}
@@ -144,6 +151,8 @@
 		grid-template-columns: 1fr 1fr;
 		grid-gap: 20px;
 	}
+}
+
 </style>
 
 <!-- 
