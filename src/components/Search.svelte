@@ -190,7 +190,7 @@
 		overflow-y: auto;
 		border: 1px solid #ccc;
 		border-radius: 5px;
-		width: 600px;
+		width: 40vw;
 		text-align: center;
 	}
 	.breed-input {
@@ -204,7 +204,7 @@
 	}
 
 	input {
-		width: 600px;
+		width: 40vw;
 	}
 
 	.breed-option {

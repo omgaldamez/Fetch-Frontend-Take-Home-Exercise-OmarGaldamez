@@ -108,6 +108,7 @@
 
 
 {#if isLog === true}
+<div class="containerFav">
 	<div class="poll-list">
 		{#each breed.breed as dogBreeds, index}
 			<div in:slide out:scale|local>
@@ -128,14 +129,19 @@
 			</div>
 		{/each}
 	</div>
+</div>
 {:else}
 	<h1 class="h1">Inicia para ver</h1>
 {/if}
 
 <style>
+	.containerFav{
+		width: 80vw;
+		display: flex;
+	}
 	.poll-list {
 		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-columns: 1fr 1fr;
 		grid-gap: 20px;
 	}
 </style>
